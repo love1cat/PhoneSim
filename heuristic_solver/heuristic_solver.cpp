@@ -64,6 +64,9 @@ namespace mobile_sensing_sim {
 		const int kDesiredTargetDataCount = 1;
 		
 		s.obj = 0.0;
+        s.sensing_cost = 0.0;
+        s.comm_cost = 0.0;
+        s.upload_cost = 0.0;
 		for (int t = 0; t < scen.running_time; t += report_period_) {
 			// Enable phones if they start at current time or
 			// since last report time (previous t).
@@ -154,7 +157,9 @@ namespace mobile_sensing_sim {
 							// Set data amount to be 1.0 all the time.
 							//datatrans[e.phone1_id][e.target_id] = value;
 							datatrans(e.time, e.phone1_id, e.target_id) = 1.0;
-							s.obj += scen.phones[e.phone1_id].costs_.sensing_cost * value;
+                            double sensing_cost = scen.phones[e.phone1_id].costs_.sensing_cost * value;
+							s.obj += sensing_cost;
+                            s.sensing_cost += sensing_cost;
 						} else {
 							hlog << "Sensing action aborted: phone " << e.phone1_id << " is out of the range of target " << e.target_id << " at time " << e.time << ".\n";
 						}
@@ -164,7 +169,9 @@ namespace mobile_sensing_sim {
 						if (ams(e.time, e.phone1_id, e.phone2_id) != 0.0) {
 							hlog << "Data transfer executed: phone " << e.phone1_id << " to phone " << e.phone2_id << ", data amount: " << cur_s.edge_values[i] << " at time " << e.time << ".\n";
 							datatrans(e.time, e.phone1_id, e.phone2_id) = value;
-							s.obj += (scen.phones[e.phone1_id].costs_.transfer_cost + scen.phones[e.phone2_id].costs_.transfer_cost) * value;
+                            double comm_cost = (scen.phones[e.phone1_id].costs_.transfer_cost + scen.phones[e.phone2_id].costs_.transfer_cost) * value;
+							s.obj += comm_cost;
+                            s.comm_cost += comm_cost;
 						} else {
 							hlog << "Data transfer aborted: phone " << e.phone1_id << " if out of the range of phone " << e.phone2_id << " at time " << e.time << ".\n";
 						}
@@ -173,7 +180,9 @@ namespace mobile_sensing_sim {
 						if (t == scen.running_time - 1 || t + report_period_ >= scen.running_time) {
 							assert(e.phone1_id != -1);
 							hlog << "Uploading executed: phone " << e.phone1_id << ", data amount: " << value << ".\n";
-							s.obj += scen.phones[e.phone1_id].costs_.upload_cost * value;
+                            double upload_cost = scen.phones[e.phone1_id].costs_.upload_cost * value;
+							s.obj += upload_cost;
+                            s.upload_cost += upload_cost;
 						}
 					} else {
 						ErrorHandler::RunningError("Heuristic algorithm: Unkown edge type is found while executing actions returned by cplex solver!");

@@ -46,6 +46,9 @@ namespace mobile_sensing_sim {
 		nlog << "Start simulated walk: \n";
 		nlog << "*********************************************\n";
 		s.obj = 0.0;
+        s.sensing_cost = 0.0;
+        s.comm_cost = 0.0;
+        s.upload_cost = 0.0;
 		for (int t = 0; t < scen.running_time; ++t) {
 			nlog << "\n";
 			nlog << "*********************************************\n";
@@ -84,7 +87,9 @@ namespace mobile_sensing_sim {
 							// in data storage.
 							// Sense the target and save the data.
 							nlog << "Phone " << i << " sense target " << j << ".\n";
-							s.obj += scen.phones[i].costs_.sensing_cost;
+                            double sensing_cost = scen.phones[i].costs_.sensing_cost;
+                            s.sensing_cost += sensing_cost;
+							s.obj += sensing_cost;
 							di[std::make_pair(i, j)] = data_required[std::make_pair(i, j)];
 						}
 					}
@@ -100,7 +105,9 @@ namespace mobile_sensing_sim {
 							// Only be able to upload part of the data.
 							nlog << "Phone " << i << " uploads part of target " << (*it).first.second << ", upload amount: " << upload_limits[i] << ".\n";
 							(*it).second -= upload_limits[i];
-							s.obj += scen.phones[i].costs_.upload_cost * upload_limits[i];
+                            double upload_cost = scen.phones[i].costs_.upload_cost * upload_limits[i];
+                            s.upload_cost += upload_cost;
+							s.obj += upload_cost;
 							
 							// Update global required data info.
 							if ((*it).second < data_required[(*it).first]) {
@@ -118,7 +125,9 @@ namespace mobile_sensing_sim {
 							target_status[tid] = true;
 							// Remove this data from storage.
 							upload_limits[i] -= (*it).second;
-							s.obj += scen.phones[i].costs_.upload_cost * (*it).second;
+                            double upload_cost = scen.phones[i].costs_.upload_cost * (*it).second;
+                            s.upload_cost += upload_cost;
+							s.obj += upload_cost;
 							di.erase(it++);
 						}
 					}
@@ -141,7 +150,9 @@ namespace mobile_sensing_sim {
 									// Assume all the data for current target can be
 									// transferred. (all dm[i][j] >= 1.0)
 									nlog << "Phone " << i << " copy all of (" << (*it).first.first << "," << (*it).first.second << ") to phone " << j << ", transfer amount: " << data_required[(*it).first] << ".\n";
-									s.obj += (scen.phones[i].costs_.transfer_cost + scen.phones[j].costs_.transfer_cost) * data_required[(*it).first];
+                                    double comm_cost = (scen.phones[i].costs_.transfer_cost + scen.phones[j].costs_.transfer_cost) * data_required[(*it).first];
+                                    s.comm_cost += comm_cost;
+									s.obj += comm_cost;
 									phone_datas[j][(*it).first] = data_required[(*it).first];
 									amount_transferred += data_required[(*it).first];
 								}
