@@ -139,6 +139,9 @@ int main(int argc, const char * argv[])
         statusfile << n_s.solution_status << "\t";
 		
 		outfile << "\n";
+		sensingcost_file << "\n";
+		commcost_file << "\n";
+		uploadcost_file << "\n";
         statusfile << "\n";
 	}
 	outfile.close();
