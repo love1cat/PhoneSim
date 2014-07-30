@@ -9,13 +9,13 @@
 #ifndef __MobileSensingSim__optimal_solver__
 #define __MobileSensingSim__optimal_solver__
 
-#include "../scenario_generator/scenario_generator.h"
+#include "../solver_base.h"
 #include "cplex_adapter.h"
 #include "cplex_milp_adapter.h"
 
 namespace mobile_sensing_sim {
 
-	class OptimalSolver {
+	class OptimalSolver : public SolverBase {
 	public:
 		Solution Solve(const Scenario& scen);
 		const GraphConverter& GetGraphConverter() {

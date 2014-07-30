@@ -10,9 +10,11 @@
 #include <fstream>
 #include "scenario_generator/scenario_generator.h"
 #include "optimal_solver/graph_converter.h"
+#include "solver_base.h"
 #include "optimal_solver/optimal_solver.h"
 #include "heuristic_solver/heuristic_solver.h"
 #include "heuristic_solver/naive_solver.h"
+#include "heuristic_solver/agg_heuristic_solver.h"
 
 namespace mss = mobile_sensing_sim;
 
@@ -103,40 +105,29 @@ int main(int argc, const char * argv[])
 		// Generate scenario.
 		const mss::Scenario& scen = sg.GenerateDefaultScenario();
 		
-		// Optimal solver
+		// Create solvers
+		std::vector<mss::SolverBase *> solvers;
+		std::vector<std::string> solver_names;
 		mss::OptimalSolver os;
-		mss::Solution opt_s = os.Solve(scen);
-		std::cout << "Optimal obj value: " << opt_s.obj << std::endl;
-		outfile << opt_s.obj << "\t";
-		sensingcost_file << opt_s.sensing_cost << "\t";
-		commcost_file << opt_s.comm_cost << "\t";
-		uploadcost_file << opt_s.upload_cost << "\t";
-        statusfile << opt_s.solution_status << "\t";
-
-		
-    	// Heuristic solver
-        int report_periods[] = {60, 90};
-        const int kReportPeriodCounts = 2;
-        for (int j = 0; j < kReportPeriodCounts; ++j) {
-        	mss::HeuristicSolver hs(report_periods[j]);
-        	mss::Solution h_s = hs.Solve(scen);
-        	std::cout << "Heuristic obj value: " << h_s.obj << std::endl;
-        	outfile << h_s.obj << "\t";
-		    sensingcost_file << h_s.sensing_cost << "\t";
-		    commcost_file << h_s.comm_cost << "\t";
-		    uploadcost_file << h_s.upload_cost << "\t";
-            statusfile << h_s.solution_status << "\t";
-        }
-		
-		// Naive solver
+		solvers.push_back(&os);
+		solver_names.push_back("Optimal solver");
+		mss::HeuristicSolver hs(60);
+		solvers.push_back(&hs);
+		solver_names.push_back("Heuristic solver");
 		mss::NaiveSolver ns;
-		mss::Solution n_s = ns.Solve(scen);
-		std::cout << "Naive obj value: " << n_s.obj << std::endl;
-		outfile << n_s.obj << "\t";
-		sensingcost_file << n_s.sensing_cost << "\t";
-		commcost_file << n_s.comm_cost << "\t";
-		uploadcost_file << n_s.upload_cost << "\t";
-        statusfile << n_s.solution_status << "\t";
+		solvers.push_back(&ns);
+		solver_names.push_back("Naive solver");
+		mss::AggressiveHeuristicSolver ahs(60);
+		solvers.push_back(&ahs);
+		solver_names.push_back("Aggressive heuristic solver");
+		for (int i = 0; i < solvers.size(); ++i) {
+			mss::Solution s = solvers[i]->Solve(scen);
+			outfile << s.obj << "\t";
+			sensingcost_file << s.sensing_cost << "\t";
+			commcost_file << s.comm_cost << "\t";
+			uploadcost_file << s.upload_cost << "\t";
+			statusfile << s.solution_status << "\t";
+		}
 		
 		outfile << "\n";
 		sensingcost_file << "\n";

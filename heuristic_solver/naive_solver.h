@@ -9,8 +9,7 @@
 #ifndef __MobileSensingSim__naive_solver__
 #define __MobileSensingSim__naive_solver__
 
-#include "../scenario_generator/scenario_generator.h"
-#include "../solution.h"
+#include "../solver_base.h"
 #include <map>
 
 namespace mobile_sensing_sim {
@@ -20,9 +19,9 @@ namespace mobile_sensing_sim {
 	// uploaded.
 	typedef std::map<std::pair<int, int>, double> DataInfo;
 	
-	class NaiveSolver {
+	class NaiveSolver : public SolverBase {
 	public:
-		Solution Solve(const Scenario& scen);
+		virtual Solution Solve(const Scenario& scen);
 	};
 }
 

@@ -9,12 +9,12 @@
 #ifndef __MobileSensingSim__heuristic_solver__
 #define __MobileSensingSim__heuristic_solver__
 
-#include "../scenario_generator/scenario_generator.h"
+#include "../solver_base.h"
 #include "../optimal_solver/cplex_milp_adapter.h"
 #include "../optimal_solver/cplex_adapter.h"
 
 namespace mobile_sensing_sim {
-	class HeuristicSolver {
+	class HeuristicSolver : public SolverBase {
 	public:
 		HeuristicSolver(const int report_period) : report_period_(report_period) {}
 		Solution Solve(const Scenario& scen);

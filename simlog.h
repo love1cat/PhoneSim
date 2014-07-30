@@ -51,6 +51,7 @@ namespace mobile_sensing_sim {
 	// Create global log
 	extern SimLog log;
 	extern SimLog hlog; // heuristic algorithm log.
+	extern SimLog ahlog; // aggressive heuristic algorithm log.
 	extern SimLog olog; // optimal algorithm log.
 	extern SimLog nlog; // naive algorithm log.
 }
