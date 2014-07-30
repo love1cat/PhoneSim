@@ -1,1 +1,0 @@
-/home/yus08002/Codes/MobileSensingSim/build/CMakeFiles/phonesim.dir
