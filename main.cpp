@@ -84,8 +84,8 @@ int main(int argc, const char * argv[])
 	sp.upload_cost_range = mss::Range(2, 6, 0.5);
 	sp.upload_limit_range = mss::Range(1, 5, 0.1);
 	
-	int phone_counts[] = {35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
-	const int kPhoneCountsSize = 14;
+	int phone_counts[] = {35, 40, 45, 50};
+	const int kPhoneCountsSize = 4;
 	std::ofstream outfile("diff_phone_counts.txt");
     std::ofstream sensingcost_file("sensing_costs.txt");
     std::ofstream commcost_file("comm_costs.txt");

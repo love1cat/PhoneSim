@@ -22,6 +22,7 @@ namespace mobile_sensing_sim {
 				return *this;
 			}
 			of_ << data;
+            of_.flush();
 			return *this;
 		}
 		

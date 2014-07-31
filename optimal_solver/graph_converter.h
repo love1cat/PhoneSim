@@ -34,6 +34,7 @@ namespace mobile_sensing_sim {
 		int phone1_id;
 		int phone2_id;
 		int target_id;
+        int target_seqid;
 	};
 	
 	struct Graph {

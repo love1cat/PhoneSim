@@ -75,6 +75,7 @@ namespace mobile_sensing_sim {
 			e.time = -1; // no time associated
 			e.phone1_id = e.phone2_id = -1;
 			e.target_id = -1;
+            e.target_seqid = i;
 			AddEdge(e);
 		}
 		
@@ -91,12 +92,13 @@ namespace mobile_sensing_sim {
 			e.time = scen.running_time - 1;
 			e.phone1_id = e.phone2_id = i;
 			e.target_id = -1;
+            e.target_seqid = -1;
 			AddEdge(e);
 		}
 		
 		// Type 3
 		const ThreeDimVector<int> &am = scen.adj_mats;
-		assert(scen.running_time == am.DimOneSize());
+		assert(scen.running_time <= am.DimOneSize());
 		for (int t = 0; t < scen.running_time; ++t) {
 			for (int i = 0; i < am.DimTwoSize(); ++i) {
 				// Only add outgoing edges from i
@@ -119,6 +121,7 @@ namespace mobile_sensing_sim {
 							e.phone1_id = i;
 							e.phone2_id = j;
 							e.target_id= -1;
+                            e.target_seqid = -1;
 							AddEdge(e);
 						} else {
 							// Type 3b
@@ -139,6 +142,7 @@ namespace mobile_sensing_sim {
 							e.type = Edge::TARGET_TO_PHONE;
 							e.phone1_id = e.phone2_id = i;
 							e.target_id = j;
+                            e.target_seqid = tid;
 							AddEdge(e);
 						}
 					}
@@ -160,6 +164,7 @@ namespace mobile_sensing_sim {
 				e.time = t;
 				e.phone1_id = e.phone2_id = i;
 				e.target_id = -1;
+                e.target_seqid = -1;
 				AddEdge(e);
 			}
 		}
