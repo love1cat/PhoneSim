@@ -58,10 +58,10 @@ namespace mobile_sensing_sim {
 		ahlog << "*********************************************\n";
 		ahlog << "Starting simulated walk\n";
 		ahlog << "*********************************************\n";
-
+		
         // 07/31/2014
         // e.target_seqid ==> 0 - target_count - 1
-        // e.target_id = phone_count + e.target_seqid 
+        // e.target_id = phone_count + e.target_seqid
         // ams use e.target_id
 		
 		std::vector<int> target_status(scen.target_count, 0);
@@ -80,7 +80,9 @@ namespace mobile_sensing_sim {
         s.sensing_cost = 0.0;
         s.comm_cost = 0.0;
         s.upload_cost = 0.0;
+		double previous_upload_amount = 0.0;
 		for (int t = 0; t < scen.running_time; t += report_period_) {
+			double current_upload_amount = 0.0;
 			// Enable phones if they start at current time or
 			// since last report time (previous t).
 			ahlog << "\n";
@@ -165,6 +167,7 @@ namespace mobile_sensing_sim {
 				if (e.type == Edge::SRC_TO_TARGET) {
 					// Indicator of how much data has been uploaded.
 					target_uploaded[e.target_seqid] = cur_s.edge_values[i];
+					current_upload_amount += cur_s.edge_values[i];
 					continue;
 				}
 				
@@ -205,19 +208,47 @@ namespace mobile_sensing_sim {
 						} else {
 							ahlog << "Data transfer aborted: phone " << e.phone1_id << " if out of the range of phone " << e.phone2_id << " at time " << e.time << ".\n";
 						}
-					} else if (e.type == Edge::PHONE_TO_SINK) {
-						// Plus uploading cost.
-		
-						assert(e.phone1_id != -1);
-						ahlog << "Uploading executed: phone " << e.phone1_id << ", data amount: " << value << ".\n";
-						double upload_cost = scen.phones[e.phone1_id].costs_.upload_cost * value;
-						s.obj += upload_cost;
-						s.upload_cost += upload_cost;
 					} else {
 						ErrorHandler::RunningError("Heuristic algorithm: Unkown edge type is found while executing actions returned by cplex solver!");
 					}
 				} // if (e.time >= t && e.time < t + report_period_)
 			} //  for i
+			
+			// Compute uploading cost seperately.
+			double diff = current_upload_amount - previous_upload_amount;
+			if (diff > 0.0) {
+				for (int i = 0; i < edges.size(); ++i) {
+					const Edge& e = edges[i];
+					if (cur_s.edge_values[i] == 0 || e.type == Edge::PHONE_TO_SELF) {
+						continue;
+					}
+					if (e.time >= t && e.time < t + report_period_) {
+						ThreeDimVector<double> &datatrans = phone_datatrans;
+						double value = cur_s.edge_values[i];
+						const ThreeDimVector<int> &ams = scen.adj_mats;
+						if (e.type == Edge::PHONE_TO_SINK) {
+							// Plus uploading cost.
+							
+							assert(e.phone1_id != -1);
+							ahlog << "Uploading executed: phone " << e.phone1_id << ", data amount: " << value << ".\n";
+							
+							// Only count in recent uploads.
+							if (diff > 0) {
+								if (diff < value) {
+									value  = diff;
+								}
+								double upload_cost = scen.phones[e.phone1_id].costs_.upload_cost * value;
+								s.obj += upload_cost;
+								s.upload_cost += upload_cost;
+								diff -= value;
+							} else {
+								break;
+							}
+						}
+					}
+				}
+			}
+			previous_upload_amount = current_upload_amount;
 			
 			// Stop if all targets are uploaded.
 			bool is_all_uploaded = true;
