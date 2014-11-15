@@ -11,22 +11,18 @@
 
 #include <vector>
 #include <ilcplex/cplex.h>
+#include "cplex_adapter_base.h"
 #include "graph_converter.h"
 #include "../solution.h"
 
 namespace mobile_sensing_sim {
-	class CplexMILPAdapter {
+  class CplexMILPAdapter : public CplexAdapterBase {
 	public:
-		CplexMILPAdapter() : env_(NULL), net_(NULL), lp_(NULL){}
+		CplexMILPAdapter() : lp_(NULL){}
 		bool Solve(const Graph &g, Solution &s);
 	private:
-		int BuildNetwork(const Graph& g);
-		bool Reset();
-		
-		int status_;
-		
-		CPXENVptr env_;
-		CPXNETptr net_;
+		void Reset();
+
 		CPXLPptr  lp_;
 	};
 }

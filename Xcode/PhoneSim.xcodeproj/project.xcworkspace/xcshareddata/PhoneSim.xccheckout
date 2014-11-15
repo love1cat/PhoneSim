@@ -10,29 +10,29 @@
 	<string>PhoneSim</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>23DF9964-9C90-44F3-8F20-C1948AAF3D7B</key>
+		<key>777A77D4A365EF8F3AFA48547AFAD16D2C45A1D1</key>
 		<string>https://github.com/love1cat/PhoneSim.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Xcode/PhoneSim/PhoneSim.xcodeproj/project.xcworkspace</string>
+	<string>Xcode/PhoneSim.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>23DF9964-9C90-44F3-8F20-C1948AAF3D7B</key>
-		<string>../../../..</string>
+		<key>777A77D4A365EF8F3AFA48547AFAD16D2C45A1D1</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/love1cat/PhoneSim.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>23DF9964-9C90-44F3-8F20-C1948AAF3D7B</string>
+	<string>777A77D4A365EF8F3AFA48547AFAD16D2C45A1D1</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>23DF9964-9C90-44F3-8F20-C1948AAF3D7B</string>
+			<string>777A77D4A365EF8F3AFA48547AFAD16D2C45A1D1</string>
 			<key>IDESourceControlWCCName</key>
 			<string>PhoneSim</string>
 		</dict>

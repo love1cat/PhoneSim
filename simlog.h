@@ -55,6 +55,7 @@ namespace mobile_sensing_sim {
 	extern SimLog ahlog; // aggressive heuristic algorithm log.
 	extern SimLog olog; // optimal algorithm log.
 	extern SimLog nlog; // naive algorithm log.
+  extern SimLog oblog; // optimal balance algorithm log.
 }
 
 #endif /* defined(__MobileSensingSim__simlog__) */

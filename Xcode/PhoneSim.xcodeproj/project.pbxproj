@@ -25,6 +25,9 @@
 		A14E8CE7196CF5570078ECC9 /* random_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A14E8CDC196CF5570078ECC9 /* random_generator.cpp */; };
 		A14E8CE8196CF5570078ECC9 /* scenario_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A14E8CDE196CF5570078ECC9 /* scenario_generator.cpp */; };
 		A14E8CF11970BA210078ECC9 /* agg_heuristic_solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A14E8CEF1970BA210078ECC9 /* agg_heuristic_solver.cpp */; };
+		A1CCC87F1A09A82900D79355 /* cplex_adapter_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CCC87D1A09A82900D79355 /* cplex_adapter_base.cpp */; };
+		A1E658731A12EBE00009206F /* cplex_balance_adapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E658711A12EBE00009206F /* cplex_balance_adapter.cpp */; };
+		A1E658761A12F8430009206F /* optimal_balance_solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E658741A12F8430009206F /* optimal_balance_solver.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +80,12 @@
 		A14E8CEA196E0D280078ECC9 /* solver_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = solver_base.h; path = ../../solver_base.h; sourceTree = "<group>"; };
 		A14E8CEF1970BA210078ECC9 /* agg_heuristic_solver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = agg_heuristic_solver.cpp; sourceTree = "<group>"; };
 		A14E8CF01970BA210078ECC9 /* agg_heuristic_solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = agg_heuristic_solver.h; sourceTree = "<group>"; };
+		A1CCC87D1A09A82900D79355 /* cplex_adapter_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cplex_adapter_base.cpp; sourceTree = "<group>"; };
+		A1CCC87E1A09A82900D79355 /* cplex_adapter_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cplex_adapter_base.h; sourceTree = "<group>"; };
+		A1E658711A12EBE00009206F /* cplex_balance_adapter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cplex_balance_adapter.cpp; sourceTree = "<group>"; };
+		A1E658721A12EBE00009206F /* cplex_balance_adapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cplex_balance_adapter.h; sourceTree = "<group>"; };
+		A1E658741A12F8430009206F /* optimal_balance_solver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = optimal_balance_solver.cpp; sourceTree = "<group>"; };
+		A1E658751A12F8430009206F /* optimal_balance_solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = optimal_balance_solver.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +167,12 @@
 				A14E8CD3196CF5570078ECC9 /* graph_converter.h */,
 				A14E8CD4196CF5570078ECC9 /* optimal_solver.cpp */,
 				A14E8CD5196CF5570078ECC9 /* optimal_solver.h */,
+				A1CCC87D1A09A82900D79355 /* cplex_adapter_base.cpp */,
+				A1CCC87E1A09A82900D79355 /* cplex_adapter_base.h */,
+				A1E658711A12EBE00009206F /* cplex_balance_adapter.cpp */,
+				A1E658721A12EBE00009206F /* cplex_balance_adapter.h */,
+				A1E658741A12F8430009206F /* optimal_balance_solver.cpp */,
+				A1E658751A12F8430009206F /* optimal_balance_solver.h */,
 			);
 			name = optimal_solver;
 			path = ../../optimal_solver;
@@ -231,6 +246,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1CCC87F1A09A82900D79355 /* cplex_adapter_base.cpp in Sources */,
 				A14E8CE4196CF5570078ECC9 /* graph_converter.cpp in Sources */,
 				A14E8CE0196CF5570078ECC9 /* heuristic_solver.cpp in Sources */,
 				A14E8CA8196CEADB0078ECC9 /* simlog.cpp in Sources */,
@@ -241,7 +257,9 @@
 				A14E8CE6196CF5570078ECC9 /* phone.cpp in Sources */,
 				A14E8CE1196CF5570078ECC9 /* naive_solver.cpp in Sources */,
 				A14E8CE2196CF5570078ECC9 /* cplex_adapter.cpp in Sources */,
+				A1E658731A12EBE00009206F /* cplex_balance_adapter.cpp in Sources */,
 				A14E8CE7196CF5570078ECC9 /* random_generator.cpp in Sources */,
+				A1E658761A12F8430009206F /* optimal_balance_solver.cpp in Sources */,
 				A14E8CA7196CEADB0078ECC9 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

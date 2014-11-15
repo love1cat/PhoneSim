@@ -17,4 +17,5 @@ namespace mobile_sensing_sim {
 	SimLog ahlog("./aggheuristic_alg_log.txt");
 	SimLog olog("./optimal_alg_log.txt");
 	SimLog nlog("./naive_alg_log.txt");
+  SimLog oblog("./optiaml_balance_alg_log.txt");
 }
