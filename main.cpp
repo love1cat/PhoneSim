@@ -17,6 +17,10 @@
 #include "heuristic_solver/naive_solver.h"
 #include "heuristic_solver/agg_heuristic_solver.h"
 
+namespace {
+  const char * DEFAULT_OUTFILE = "phonesim_result.txt";
+}
+
 namespace mss = mobile_sensing_sim;
 
 mss::MonitorMap CreateMap() {
@@ -89,18 +93,10 @@ int main(int argc, const char * argv[])
   //  const int kPhoneCountsSize = 4;
   int phone_counts[] = {35};
   const int kPhoneCountsSize = 1;
-  std::ofstream outfile("diff_phone_counts.txt");
-  std::ofstream sensingcost_file("sensing_costs.txt");
-  std::ofstream commcost_file("comm_costs.txt");
-  std::ofstream uploadcost_file("upload_costs.txt");
-  std::ofstream statusfile("algorithm_status.txt");
+  std::ofstream of(DEFAULT_OUTFILE);
   for (int i = 0; i < kPhoneCountsSize; ++i) {
     sp.phone_count = phone_counts[i];
-    outfile << phone_counts[i] << "\t";
-    sensingcost_file << phone_counts[i] << "\t";
-    commcost_file << phone_counts[i] << "\t";
-    uploadcost_file << phone_counts[i] << "\t";
-    statusfile << phone_counts[i] << "\t";
+    of << phone_counts[i] << "\t";
     
     // Create scneario generator.
     mss::ScenarioGenerator sg(sp);
@@ -111,9 +107,9 @@ int main(int argc, const char * argv[])
     // Create solvers
     std::vector<mss::SolverBase *> solvers;
     std::vector<std::string> solver_names;
-    //		mss::OptimalSolver os;
-    //		solvers.push_back(&os);
-    //		solver_names.push_back("Optimal solver");
+    mss::OptimalSolver os;
+    solvers.push_back(&os);
+    solver_names.push_back("Optimal solver");
     //		mss::HeuristicSolver hs(60);
     //		solvers.push_back(&hs);
     //		solver_names.push_back("Heuristic solver");
@@ -127,19 +123,14 @@ int main(int argc, const char * argv[])
     solvers.push_back(&obs);
     solver_names.push_back("Optimal balance solver");
     for (int j = 0; j < solvers.size(); ++j) {
-      mss::Solution s = solvers[j]->Solve(scen);
-      outfile << s.obj << "\t";
-      sensingcost_file << s.sensing_cost << "\t";
-      commcost_file << s.comm_cost << "\t";
-      uploadcost_file << s.upload_cost << "\t";
-      statusfile << s.solution_status << "\t";
+      mss::Result r = solvers[j]->Solve(scen);
+      of << r.all_cost << "\t"
+         << r.total_cost[mss::Cost::SENSING] << "\t"
+         << r.total_cost[mss::Cost::COMM] << "\t"
+         << r.total_cost[mss::Cost::UPLOAD] << "\t"
+         << r.GetMaxPhoneCost() << "\t";
     }
-    
-    outfile << "\n";
-    sensingcost_file << "\n";
-    commcost_file << "\n";
-    uploadcost_file << "\n";
-    statusfile << "\n";
+    of << std::endl;
   } //for int i
   
   return 0;

@@ -13,7 +13,6 @@
 #include <ilcplex/cplex.h>
 #include "cplex_adapter_base.h"
 #include "graph_converter.h"
-#include "../solution.h"
 
 namespace mobile_sensing_sim {
   class CplexMILPAdapter : public CplexAdapterBase {

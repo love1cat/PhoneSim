@@ -50,7 +50,6 @@
 		A14E8CA1196CEADB0078ECC9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../main.cpp; sourceTree = "<group>"; };
 		A14E8CA4196CEADB0078ECC9 /* simlog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simlog.cpp; path = ../../simlog.cpp; sourceTree = "<group>"; };
 		A14E8CA5196CEADB0078ECC9 /* simlog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simlog.h; path = ../../simlog.h; sourceTree = "<group>"; };
-		A14E8CA6196CEADB0078ECC9 /* solution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = solution.h; path = ../../solution.h; sourceTree = "<group>"; };
 		A14E8CA9196CECF40078ECC9 /* libpthread.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpthread.dylib; path = usr/lib/libpthread.dylib; sourceTree = SDKROOT; };
 		A14E8CAB196CECFA0078ECC9 /* libmathCommon.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmathCommon.dylib; path = usr/lib/system/libmathCommon.dylib; sourceTree = SDKROOT; };
 		A14E8CAD196CED3F0078ECC9 /* libcplex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcplex.a; path = "../../../../Applications/IBM/ILOG/CPLEX_Studio124/cplex/lib/x86-64_darwin9_gcc4.0/static_pic/libcplex.a"; sourceTree = "<group>"; };
@@ -135,7 +134,6 @@
 				A14E8CA1196CEADB0078ECC9 /* main.cpp */,
 				A14E8CA4196CEADB0078ECC9 /* simlog.cpp */,
 				A14E8CA5196CEADB0078ECC9 /* simlog.h */,
-				A14E8CA6196CEADB0078ECC9 /* solution.h */,
 				A14E8C98196CEA2C0078ECC9 /* PhoneSim.1 */,
 				A14E8CEA196E0D280078ECC9 /* solver_base.h */,
 			);

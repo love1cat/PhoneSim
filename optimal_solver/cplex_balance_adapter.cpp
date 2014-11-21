@@ -47,30 +47,35 @@ namespace mobile_sensing_sim {
       return false;
     }
     
-//    // Change problem type to MILP.
-//    status_ = CPXchgprobtype (env_, lp_, CPXPROB_MILP);
-//    
-//    // Create variable type array.
-//    boost::scoped_array<char> ctype(new char[g.edge_count]);
-//    for (int i = 0; i < g.edge_count; ++i) {
-//      if (g.edges[i].type == Edge::TARGET_TO_PHONE) {
-//        ctype[i] = 'B';
-//      } else {
-//        ctype[i] = 'C';
-//      }
-//    }
-//    
-//    // Set variable type in MILP.
-//    status_ = CPXcopyctype (env_, lp_, ctype.get());
-//    
-//    // Solve MILP.
-//    status_ = CPXmipopt (env_, lp_);
+    // Change problem type to MILP.
+    if (use_milp_) {
+      status_ = CPXchgprobtype (env_, lp_, CPXPROB_MILP);
+      
+      // Create variable type array.
+      boost::scoped_array<char> ctype(new char[g.edge_count]);
+      for (int i = 0; i < g.edge_count; ++i) {
+        if (g.edges[i].type == Edge::TARGET_TO_PHONE) {
+          ctype[i] = 'B';
+        } else {
+          ctype[i] = 'C';
+        }
+      }
+      
+      // Set variable type in MILP.
+      status_ = CPXcopyctype (env_, lp_, ctype.get());
+    }
     
-//    status_ = CPXwriteprob (env_, lp_, "balance_prob.txt", "LP");
+    //    status_ = CPXwriteprob (env_, lp_, "balance_prob.txt", "LP");
     
-    status_ = CPXchgprobtype (env_, lp_, CPXPROB_LP);
+    if (use_milp_) {
+      // Solve MILP.
+      status_ = CPXmipopt (env_, lp_);
+    } else {
+      status_ = CPXchgprobtype (env_, lp_, CPXPROB_LP);
+      
+      status_ = CPXlpopt(env_, lp_);
+    }
     
-    status_ = CPXlpopt(env_, lp_);
     if ( status_ ) {
       fprintf (stderr, "Failed to optimize LP.\n");
       Reset();
@@ -204,7 +209,7 @@ namespace mobile_sensing_sim {
       return status_;
     }
     
-
+    
     // Add cost constraints for every phone.
     cur_numcols = CPXgetnumcols (env_, lp_);
     std::cout << "Number of cols after adding " << cur_numcols << std::endl;

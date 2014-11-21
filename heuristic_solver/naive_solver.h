@@ -21,7 +21,7 @@ namespace mobile_sensing_sim {
 	
 	class NaiveSolver : public SolverBase {
 	public:
-		virtual Solution Solve(const Scenario& scen);
+		virtual Result Solve(const Scenario& scen);
 	};
 }
 

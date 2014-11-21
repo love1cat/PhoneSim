@@ -17,12 +17,12 @@ namespace mobile_sensing_sim {
 
 	class OptimalSolver : public SolverBase {
 	public:
-		Solution Solve(const Scenario& scen);
+		Result Solve(const Scenario& scen);
 		const GraphConverter& GetGraphConverter() {
 			return gc_;
 		}
 	private:
-//		CplexAdapter cplex_adapter_;
+//    CplexAdapter cplex_adapter_;
 		CplexMILPAdapter cplex_adapter_;
 		GraphConverter gc_;
 	};

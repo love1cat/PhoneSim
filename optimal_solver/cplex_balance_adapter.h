@@ -13,7 +13,6 @@
 #include <ilcplex/cplex.h>
 #include "cplex_adapter_base.h"
 #include "graph_converter.h"
-#include "../solution.h"
 
 namespace mobile_sensing_sim {
   struct BalanceOption{
@@ -29,13 +28,17 @@ namespace mobile_sensing_sim {
   
   class CplexBalanceAdapter : public CplexAdapterBase {
   public:
-    CplexBalanceAdapter() : lp_(NULL){}
+    CplexBalanceAdapter() : lp_(NULL), use_milp_(false){}
+    void SetMILP(bool status) {
+      use_milp_ = status;
+    }
     bool Solve(const Graph &g, const Scenario& scen, const BalanceOption &bo, Solution &s);
   private:
     int AddBalanceConstraints(const Graph &g, const Scenario &scen, const BalanceOption &bo);
     void Reset();
     
     CPXLPptr  lp_;
+    bool use_milp_;
   };
 }
 

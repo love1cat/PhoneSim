@@ -12,9 +12,23 @@
 #include <vector>
 #include <ilcplex/cplex.h>
 #include "graph_converter.h"
-#include "../solution.h"
 
 namespace mobile_sensing_sim {
+  struct Solution {
+    Solution() : is_valid(false), obj(0.0) {}
+    void Clear() {
+      edge_values.clear();
+      edge_costs.clear();
+    }
+    bool is_valid;
+    double obj;
+    int solution_status;
+    int edge_count;
+    int vertex_count;
+    std::vector<double> edge_values;
+    std::vector<double> edge_costs;
+  };
+  
   class CplexAdapterBase {
   public:
     CplexAdapterBase() : env_(NULL), net_(NULL) {}

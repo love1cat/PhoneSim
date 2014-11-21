@@ -17,7 +17,7 @@ namespace mobile_sensing_sim {
 	class HeuristicSolver : public SolverBase {
 	public:
 		HeuristicSolver(const int report_period) : report_period_(report_period) {}
-		Solution Solve(const Scenario& scen);
+		Result Solve(const Scenario& scen);
 	private:
 		CplexMILPAdapter cplex_milp_adapter_;
 		CplexAdapter cplex_adapter_;

@@ -17,7 +17,7 @@ namespace mobile_sensing_sim {
   
   class OptimalBalanceSolver : public SolverBase {
   public:
-    Solution Solve(const Scenario& scen);
+    Result Solve(const Scenario& scen);
     const GraphConverter& GetGraphConverter() {
       return gc_;
     }

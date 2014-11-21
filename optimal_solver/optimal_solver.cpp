@@ -10,7 +10,7 @@
 #include "../simlog.h"
 
 namespace mobile_sensing_sim {
-  Solution OptimalSolver::Solve(const Scenario& scen) {
+  Result OptimalSolver::Solve(const Scenario& scen) {
     olog.Reset();
     gc_.ConvertToGraph(scen);
     const Graph& g = gc_.GetGraph();
@@ -20,10 +20,9 @@ namespace mobile_sensing_sim {
     
     // Recompute objective value as we may have used
     // time-related sensing costs.
-    s.obj = 0.0;
-    s.sensing_cost = 0.0;
-    s.comm_cost = 0.0;
-    s.upload_cost = 0.0;
+    Result r(scen.phone_count);
+    r.is_valid = s.is_valid;
+    r.solution_status = s.solution_status;
     for (int i = 0; i < s.edge_count; ++i) {
       if (s.edge_values[i] != 0.0) {
         const Edge& e = gc_.GetEdge(i);
@@ -33,16 +32,15 @@ namespace mobile_sensing_sim {
         double value = s.edge_values[i];
         if (e.type == Edge::TARGET_TO_PHONE) {
           double sensing_cost = scen.phones[e.phone1_id].costs_.sensing_cost * value;
-          s.sensing_cost += sensing_cost;
-          s.obj += sensing_cost;
+          r.AddCost(e.phone1_id, sensing_cost, Cost::SENSING);
         } else if (e.type == Edge::PHONE_TO_PHONE) {
-          double comm_cost = (scen.phones[e.phone1_id].costs_.transfer_cost + scen.phones[e.phone2_id].costs_.transfer_cost) * value;
-          s.comm_cost += comm_cost;
-          s.obj += comm_cost;
+          double comm_cost1 = scen.phones[e.phone1_id].costs_.transfer_cost * value;
+          double comm_cost2 = scen.phones[e.phone2_id].costs_.transfer_cost * value;
+          r.AddCost(e.phone1_id, comm_cost1, Cost::COMM);
+          r.AddCost(e.phone2_id, comm_cost2, Cost::COMM);
         } else if (e.type == Edge::PHONE_TO_SINK) {
           double upload_cost = scen.phones[e.phone1_id].costs_.upload_cost * value;
-          s.upload_cost += upload_cost;
-          s.obj += upload_cost;
+          r.AddCost(e.phone1_id, upload_cost, Cost::UPLOAD);
         } else {
           ErrorHandler::RunningError("Optimal algorithm: Unkown edge type is found while adjust solution returned by cplex solver!");
         }
@@ -55,7 +53,7 @@ namespace mobile_sensing_sim {
     olog << "*********************************************\n";
     if (!s.is_valid) {
       olog << "Not found a valid solution!\n";
-      return s;
+      return r;
     }
     
     assert(s.edge_count == gc_.GetGraph().edge_count);
@@ -67,6 +65,6 @@ namespace mobile_sensing_sim {
       }
     }
     
-    return s;
+    return r;
   }
 }

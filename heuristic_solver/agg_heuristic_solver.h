@@ -18,7 +18,7 @@ namespace mobile_sensing_sim {
 	public:
 		AggressiveHeuristicSolver(const int report_period) : report_period_(report_period) {
 		}
-		virtual Solution Solve(const Scenario& scen);
+		virtual Result Solve(const Scenario& scen);
 	private:
 		CplexMILPAdapter cplex_milp_adapter_;
 		CplexAdapter cplex_adapter_;
