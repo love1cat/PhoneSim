@@ -20,7 +20,9 @@ namespace mobile_sensing_sim {
     
     BalanceOption bo;
     
-    cplex_adapter_.SetMILP(true);
+    if (use_milp_) {
+      cplex_adapter_.SetMILP(true);
+    }
     cplex_adapter_.Solve(g, scen, bo, s);
     
     // Recompute objective value as we may have used
@@ -28,6 +30,8 @@ namespace mobile_sensing_sim {
     Result r(scen.phone_count);
     r.is_valid = s.is_valid;
     r.solution_status = s.solution_status;
+    r.is_optimal = (s.solution_status == 1 || s.solution_status == 101 || s.solution_status == 102);
+    
     for (int i = 0; i < s.edge_count; ++i) {
       if (s.edge_values[i] != 0.0) {
         const Edge& e = gc_.GetEdge(i);

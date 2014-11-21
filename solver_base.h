@@ -33,12 +33,13 @@ namespace mobile_sensing_sim {
   };
   
   struct Result {
-    Result(const int phone_count) : phone_cost(phone_count), is_valid(false), all_cost(0.0), solution_status(-1){}
+    Result(const int phone_count) : phone_cost(phone_count), is_valid(false), all_cost(0.0), solution_status(-1), is_optimal(false){}
     std::vector<Cost> phone_cost;
     Cost total_cost;
     double all_cost;
     bool is_valid;
     int solution_status;
+    bool is_optimal;
     void AddCost(const int phoneid, const double cost, Cost::CostType ctype) {
       total_cost[ctype] += cost;
       assert(phoneid < phone_cost.size());

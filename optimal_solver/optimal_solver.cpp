@@ -16,13 +16,19 @@ namespace mobile_sensing_sim {
     const Graph& g = gc_.GetGraph();
     //		gc.PrintInformation();
     Solution s;
-    cplex_adapter_.Solve(g, s);
+    if (use_milp_) {
+      cplex_milp_adapter_.Solve(g, s);
+    } else {
+      cplex_adapter_.Solve(g, s);
+    }
     
     // Recompute objective value as we may have used
     // time-related sensing costs.
     Result r(scen.phone_count);
     r.is_valid = s.is_valid;
     r.solution_status = s.solution_status;
+    r.is_optimal = (s.solution_status == 1 || s.solution_status == 101 || s.solution_status == 102);
+    
     for (int i = 0; i < s.edge_count; ++i) {
       if (s.edge_values[i] != 0.0) {
         const Edge& e = gc_.GetEdge(i);

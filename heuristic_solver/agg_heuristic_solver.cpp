@@ -150,6 +150,7 @@ namespace mobile_sensing_sim {
       
       r.is_valid = cur_s.is_valid;
       r.solution_status = cur_s.solution_status;
+      r.is_optimal = (cur_s.solution_status == 1 || cur_s.solution_status == 101 || cur_s.solution_status == 102);
       
       // Execute actions returned by cplex solver.
       // Costs are added to final objective value.
@@ -254,6 +255,10 @@ namespace mobile_sensing_sim {
       }
       
       if (is_all_uploaded) {
+        r.solution_status = cur_s.solution_status;
+        r.is_valid = cur_s.is_valid;
+        r.is_optimal = (cur_s.solution_status == 1 || cur_s.solution_status == 101 || cur_s.solution_status == 102);
+        
         // Record solution and return.
         ahlog << "\n";
         ahlog << "*********************************************\n";
@@ -263,9 +268,6 @@ namespace mobile_sensing_sim {
           ahlog << "Not found a valid solution!\n";
           break;
         }
-        
-        r.solution_status = cur_s.solution_status;
-        r.is_valid = cur_s.is_valid;
         
         assert(cur_s.edge_count == gc.GetGraph().edge_count);
         ahlog << "Objective value: " << r.all_cost << "\n";
@@ -315,10 +317,15 @@ namespace mobile_sensing_sim {
       
       // If last iteration, record solution found.
       if (t == scen.running_time - 1 || t + report_period_ >= scen.running_time) {
+        r.solution_status = cur_s.solution_status;
+        r.is_valid = cur_s.is_valid;
+        r.is_optimal = (cur_s.solution_status == 1 || cur_s.solution_status == 101 || cur_s.solution_status == 102);
+        
         ahlog << "\n";
         ahlog << "*********************************************\n";
         ahlog << "Final solution: \n";
         ahlog << "*********************************************\n";
+
         if (!cur_s.is_valid) {
           ahlog << "Not found a valid solution!\n";
           break;

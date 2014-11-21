@@ -17,12 +17,16 @@ namespace mobile_sensing_sim {
   
   class OptimalBalanceSolver : public SolverBase {
   public:
+    OptimalBalanceSolver() : use_milp_(false) {}
     Result Solve(const Scenario& scen);
     const GraphConverter& GetGraphConverter() {
       return gc_;
     }
+    void SetMILP(bool status) {
+      use_milp_ = status;
+    }
   private:
-    //		CplexAdapter cplex_adapter_;
+    bool use_milp_;
     CplexBalanceAdapter cplex_adapter_;
     GraphConverter gc_;
   };

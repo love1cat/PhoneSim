@@ -87,7 +87,7 @@ int main(int argc, const char * argv[])
   sp.sensing_cost_range = mss::Range(2, 6, 0.5);
   sp.transfer_cost_range = mss::Range(2, 6, 0.5);
   sp.upload_cost_range = mss::Range(2, 6, 0.5);
-  sp.upload_limit_range = mss::Range(1, 5, 0.1);
+  sp.upload_limit_range = mss::Range(1, 3, 0.1);
   
   //  int phone_counts[] = {35, 40, 45, 50};
   //  const int kPhoneCountsSize = 4;
@@ -129,6 +129,8 @@ int main(int argc, const char * argv[])
          << r.total_cost[mss::Cost::COMM] << "\t"
          << r.total_cost[mss::Cost::UPLOAD] << "\t"
          << r.GetMaxPhoneCost() << "\t";
+      int success_val = (r.is_valid && r.is_optimal) ? 1 : 0;
+      of << success_val << "\t";
     }
     of << std::endl;
   } //for int i

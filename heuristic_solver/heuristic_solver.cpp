@@ -130,6 +130,7 @@ namespace mobile_sensing_sim {
       
       r.is_valid = cur_s.is_valid;
       r.solution_status = cur_s.solution_status;
+      r.is_optimal = (cur_s.solution_status == 1 || cur_s.solution_status == 101 || cur_s.solution_status == 102);
       
       // Execute actions returned by cplex solver.
       // Costs are added to final objective value.
@@ -212,6 +213,10 @@ namespace mobile_sensing_sim {
       
       // If last iteration, record solution found.
       if (t == scen.running_time - 1 || t + report_period_ >= scen.running_time) {
+        r.is_valid = cur_s.is_valid;
+        r.solution_status = cur_s.solution_status;
+        r.is_optimal = (cur_s.solution_status == 1 || cur_s.solution_status == 101 || cur_s.solution_status == 102);
+        
         hlog << "\n";
         hlog << "*********************************************\n";
         hlog << "Final solution: \n";
@@ -220,9 +225,6 @@ namespace mobile_sensing_sim {
           hlog << "Not found a valid solution!\n";
           break;
         }
-        
-        r.is_valid = cur_s.is_valid;
-        r.solution_status = cur_s.solution_status;
         
         assert(cur_s.edge_count == gc.GetGraph().edge_count);
         hlog << "Objective value: " << r.all_cost << "\n";

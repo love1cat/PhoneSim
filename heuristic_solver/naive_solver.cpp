@@ -184,8 +184,10 @@ namespace mobile_sensing_sim {
     }
     if (!all_upload) {
       r.is_valid = false; // infeasible
+      r.is_optimal = false;
     } else {
       r.is_valid = true; // valid
+      r.is_optimal = true;
     }
     
     return r;
