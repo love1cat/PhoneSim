@@ -113,17 +113,31 @@ namespace mobile_sensing_sim {
       // Solve converted graph.
       hlog << "Solve converted graph...\n";
       Solution cur_s;
-      bool solution_status = cplex_adapter_.Solve(gc.GetGraph(), cur_s);
-      if (!solution_status) {
+      bool is_success = false;
+      
+      if (use_balance_) {
+        cplex_balance_adapter_.SetMILP(false);
+        is_success = cplex_balance_adapter_.Solve(gc.GetGraph(), cur_scen, BalanceOption(), cur_s);
+      } else {
+        is_success = cplex_adapter_.Solve(gc.GetGraph(), cur_s);
+      }
+      if (!is_success) {
         ErrorHandler::RunningError("Cplex solver does not run successfully!");
       }
       
       if (UseMILP() && cur_s.solution_status == CPX_STAT_OPTIMAL) {
         // If feasible, try MILP
         Solution milp_s;
-        bool status = cplex_milp_adapter_.Solve(gc.GetGraph(), milp_s);
+        is_success = false;
+        if (use_balance_) {
+          cplex_balance_adapter_.SetMILP(true);
+          is_success = cplex_balance_adapter_.Solve(gc.GetGraph(), cur_scen, BalanceOption(), milp_s);
+        } else {
+          is_success = cplex_milp_adapter_.Solve(gc.GetGraph(), milp_s);
+        }
+
         // If still feasible, use MILP solution.
-        if (status) {
+        if (is_success) {
           cur_s = milp_s;
         }
       }
