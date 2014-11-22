@@ -12,6 +12,7 @@
 #include <vector>
 #include <ilcplex/cplex.h>
 #include "graph_converter.h"
+#include "../milp_base.h"
 
 namespace mobile_sensing_sim {
   struct Solution {
@@ -29,7 +30,7 @@ namespace mobile_sensing_sim {
     std::vector<double> edge_costs;
   };
   
-  class CplexAdapterBase {
+  class CplexAdapterBase : public MilpBase {
   public:
     CplexAdapterBase() : env_(NULL), net_(NULL) {}
     virtual bool Solve(const Graph &g, Solution &s) { return true; }

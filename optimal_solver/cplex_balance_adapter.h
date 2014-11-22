@@ -28,17 +28,13 @@ namespace mobile_sensing_sim {
   
   class CplexBalanceAdapter : public CplexAdapterBase {
   public:
-    CplexBalanceAdapter() : lp_(NULL), use_milp_(false){}
-    void SetMILP(bool status) {
-      use_milp_ = status;
-    }
+    CplexBalanceAdapter() : lp_(NULL) {}
     bool Solve(const Graph &g, const Scenario& scen, const BalanceOption &bo, Solution &s);
   private:
     int AddBalanceConstraints(const Graph &g, const Scenario &scen, const BalanceOption &bo);
     void Reset();
     
     CPXLPptr  lp_;
-    bool use_milp_;
   };
 }
 

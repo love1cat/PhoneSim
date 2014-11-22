@@ -48,7 +48,7 @@ namespace mobile_sensing_sim {
     }
     
     // Change problem type to MILP.
-    if (use_milp_) {
+    if (UseMILP()) {
       status_ = CPXchgprobtype (env_, lp_, CPXPROB_MILP);
       
       // Create variable type array.
@@ -67,7 +67,7 @@ namespace mobile_sensing_sim {
     
     //    status_ = CPXwriteprob (env_, lp_, "balance_prob.txt", "LP");
     
-    if (use_milp_) {
+    if (UseMILP()) {
       // Solve MILP.
       status_ = CPXmipopt (env_, lp_);
     } else {

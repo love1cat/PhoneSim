@@ -118,7 +118,7 @@ namespace mobile_sensing_sim {
         ErrorHandler::RunningError("Cplex solver does not run successfully!");
       }
       
-      if (cur_s.solution_status == CPX_STAT_OPTIMAL) {
+      if (UseMILP() && cur_s.solution_status == CPX_STAT_OPTIMAL) {
         // If feasible, try MILP
         Solution milp_s;
         bool status = cplex_milp_adapter_.Solve(gc.GetGraph(), milp_s);

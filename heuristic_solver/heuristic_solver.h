@@ -14,7 +14,7 @@
 #include "../optimal_solver/cplex_adapter.h"
 
 namespace mobile_sensing_sim {
-	class HeuristicSolver : public SolverBase {
+	class HeuristicSolver : public SolverBase{
 	public:
 		HeuristicSolver(const int report_period) : report_period_(report_period) {}
 		Result Solve(const Scenario& scen);

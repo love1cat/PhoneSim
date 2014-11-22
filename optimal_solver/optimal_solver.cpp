@@ -16,7 +16,7 @@ namespace mobile_sensing_sim {
     const Graph& g = gc_.GetGraph();
     //		gc.PrintInformation();
     Solution s;
-    if (use_milp_) {
+    if (UseMILP()) {
       cplex_milp_adapter_.Solve(g, s);
     } else {
       cplex_adapter_.Solve(g, s);

@@ -10,6 +10,7 @@
 #define __MobileSensingSim__solver_base__
 
 #include "scenario_generator/scenario_generator.h"
+#include "milp_base.h"
 
 namespace mobile_sensing_sim {
   struct Cost {
@@ -60,7 +61,7 @@ namespace mobile_sensing_sim {
     }
   };
   
-  class SolverBase {
+  class SolverBase : public MilpBase {
   public:
     virtual Result Solve(const Scenario& scen) = 0;
   };

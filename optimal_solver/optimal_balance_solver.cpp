@@ -20,7 +20,7 @@ namespace mobile_sensing_sim {
     
     BalanceOption bo;
     
-    if (use_milp_) {
+    if (UseMILP()) {
       cplex_adapter_.SetMILP(true);
     }
     cplex_adapter_.Solve(g, scen, bo, s);
