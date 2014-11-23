@@ -10,7 +10,6 @@
 
 namespace mobile_sensing_sim {
   bool SimLog::IsLog = true;
-  std::string SimLog::file_name_ = "invalid.txt";
   
   SimLog log("./sim_log.txt");
   SimLog hlog("./heur_log.txt");

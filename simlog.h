@@ -30,6 +30,10 @@ namespace mobile_sensing_sim {
       of_.close();
     }
     
+    void Close() {
+      of_.close();
+    }
+    
     SimLog(const std::string& filename) {
       if(!IsLog) {
         return;
@@ -43,13 +47,12 @@ namespace mobile_sensing_sim {
     void Reset() {
       of_.close();
       of_.open(file_name_.c_str(), std::fstream::trunc);
-      of_.close();
     }
     
     static bool IsLog;
   private:
     std::ofstream of_;
-    static std::string file_name_;
+    std::string file_name_;
   };
   
   // Create global log
