@@ -25,6 +25,7 @@
 		A14E8CE7196CF5570078ECC9 /* random_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A14E8CDC196CF5570078ECC9 /* random_generator.cpp */; };
 		A14E8CE8196CF5570078ECC9 /* scenario_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A14E8CDE196CF5570078ECC9 /* scenario_generator.cpp */; };
 		A14E8CF11970BA210078ECC9 /* agg_heuristic_solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A14E8CEF1970BA210078ECC9 /* agg_heuristic_solver.cpp */; };
+		A1C288361A2189B10038344F /* heuristic_dyn_solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1C288341A2189B10038344F /* heuristic_dyn_solver.cpp */; };
 		A1CCC87F1A09A82900D79355 /* cplex_adapter_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1CCC87D1A09A82900D79355 /* cplex_adapter_base.cpp */; };
 		A1E658731A12EBE00009206F /* cplex_balance_adapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E658711A12EBE00009206F /* cplex_balance_adapter.cpp */; };
 		A1E658761A12F8430009206F /* optimal_balance_solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E658741A12F8430009206F /* optimal_balance_solver.cpp */; };
@@ -80,6 +81,8 @@
 		A14E8CEF1970BA210078ECC9 /* agg_heuristic_solver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = agg_heuristic_solver.cpp; sourceTree = "<group>"; };
 		A14E8CF01970BA210078ECC9 /* agg_heuristic_solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = agg_heuristic_solver.h; sourceTree = "<group>"; };
 		A1C288331A203AAF0038344F /* milp_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = milp_base.h; path = ../../milp_base.h; sourceTree = "<group>"; };
+		A1C288341A2189B10038344F /* heuristic_dyn_solver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = heuristic_dyn_solver.cpp; sourceTree = "<group>"; };
+		A1C288351A2189B10038344F /* heuristic_dyn_solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heuristic_dyn_solver.h; sourceTree = "<group>"; };
 		A1CCC87D1A09A82900D79355 /* cplex_adapter_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cplex_adapter_base.cpp; sourceTree = "<group>"; };
 		A1CCC87E1A09A82900D79355 /* cplex_adapter_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cplex_adapter_base.h; sourceTree = "<group>"; };
 		A1E658711A12EBE00009206F /* cplex_balance_adapter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cplex_balance_adapter.cpp; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 		A14E8CC8196CF5570078ECC9 /* heuristic_solver */ = {
 			isa = PBXGroup;
 			children = (
+				A1C288341A2189B10038344F /* heuristic_dyn_solver.cpp */,
+				A1C288351A2189B10038344F /* heuristic_dyn_solver.h */,
 				A14E8CEF1970BA210078ECC9 /* agg_heuristic_solver.cpp */,
 				A14E8CF01970BA210078ECC9 /* agg_heuristic_solver.h */,
 				A14E8CC9196CF5570078ECC9 /* heuristic_solver.cpp */,
@@ -259,6 +264,7 @@
 				A14E8CE2196CF5570078ECC9 /* cplex_adapter.cpp in Sources */,
 				A1E658731A12EBE00009206F /* cplex_balance_adapter.cpp in Sources */,
 				A14E8CE7196CF5570078ECC9 /* random_generator.cpp in Sources */,
+				A1C288361A2189B10038344F /* heuristic_dyn_solver.cpp in Sources */,
 				A1E658761A12F8430009206F /* optimal_balance_solver.cpp in Sources */,
 				A14E8CA7196CEADB0078ECC9 /* main.cpp in Sources */,
 			);

@@ -16,6 +16,7 @@
 #include "heuristic_solver/heuristic_solver.h"
 #include "heuristic_solver/naive_solver.h"
 #include "heuristic_solver/agg_heuristic_solver.h"
+#include "heuristic_solver/heuristic_dyn_solver.h"
 
 namespace {
   const char * DEFAULT_OUTFILE = "phonesim_result.txt";
@@ -89,10 +90,10 @@ int main(int argc, const char * argv[])
   sp.upload_cost_range = mss::Range(2, 6, 0.5);
   sp.upload_limit_range = mss::Range(1, 3, 0.1);
   
-  //  int phone_counts[] = {35, 40, 45, 50};
-  //  const int kPhoneCountsSize = 4;
-  int phone_counts[] = {35};
-  const int kPhoneCountsSize = 1;
+  int phone_counts[] = {35, 40, 45, 50};
+  const int kPhoneCountsSize = 4;
+  //  int phone_counts[] = {35};
+  //  const int kPhoneCountsSize = 1;
   std::ofstream of(DEFAULT_OUTFILE);
   for (int i = 0; i < kPhoneCountsSize; ++i) {
     sp.phone_count = phone_counts[i];
@@ -110,25 +111,29 @@ int main(int argc, const char * argv[])
     mss::OptimalSolver os;
     solvers.push_back(&os);
     solver_names.push_back("Optimal solver");
-    //		mss::HeuristicSolver hs(60);
-    //		solvers.push_back(&hs);
-    //		solver_names.push_back("Heuristic solver");
-    //		mss::NaiveSolver ns;
-    //		solvers.push_back(&ns);
-    //		solver_names.push_back("Naive solver");
-    //    mss::AggressiveHeuristicSolver ahs(60);
-    //    solvers.push_back(&ahs);
-    //    solver_names.push_back("Aggressive heuristic solver");
+    mss::HeuristicSolver hs(60);
+    solvers.push_back(&hs);
+    solver_names.push_back("Heuristic solver");
+    mss::HeuristicDynSolver hds(60);
+    solvers.push_back(&hds);
+    solver_names.push_back("Heuristic Dynamic solver");
+    mss::NaiveSolver ns;
+    solvers.push_back(&ns);
+    solver_names.push_back("Naive solver");
+    mss::AggressiveHeuristicSolver ahs(60);
+    solvers.push_back(&ahs);
+    solver_names.push_back("Aggressive heuristic solver");
     mss::OptimalBalanceSolver obs;
     solvers.push_back(&obs);
     solver_names.push_back("Optimal balance solver");
     for (int j = 0; j < solvers.size(); ++j) {
+      solvers[j]->SetMILP(false);
       mss::Result r = solvers[j]->Solve(scen);
       of << r.all_cost << "\t"
-         << r.total_cost[mss::Cost::SENSING] << "\t"
-         << r.total_cost[mss::Cost::COMM] << "\t"
-         << r.total_cost[mss::Cost::UPLOAD] << "\t"
-         << r.GetMaxPhoneCost() << "\t";
+      //         << r.total_cost[mss::Cost::SENSING] << "\t"
+      //         << r.total_cost[mss::Cost::COMM] << "\t"
+      //         << r.total_cost[mss::Cost::UPLOAD] << "\t"
+      << r.GetMaxPhoneCost() << "\t";
       int success_val = (r.is_valid && r.is_optimal) ? 1 : 0;
       of << success_val << "\t";
     }

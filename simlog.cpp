@@ -9,13 +9,14 @@
 #include "simlog.h"
 
 namespace mobile_sensing_sim {
-	bool SimLog::IsLog = true;
-    std::string SimLog::file_name_ = "invalid.txt";
-
-	SimLog log("./sim_log.txt");
-	SimLog hlog("./heuristic_alg_log.txt");
-	SimLog ahlog("./aggheuristic_alg_log.txt");
-	SimLog olog("./optimal_alg_log.txt");
-	SimLog nlog("./naive_alg_log.txt");
-  SimLog oblog("./optiaml_balance_alg_log.txt");
+  bool SimLog::IsLog = true;
+  std::string SimLog::file_name_ = "invalid.txt";
+  
+  SimLog log("./sim_log.txt");
+  SimLog hlog("./heur_log.txt");
+  SimLog hdlog("./heur_dyn_log.txt");
+  SimLog ahlog("./aggheur_log.txt");
+  SimLog olog("./opt_log.txt");
+  SimLog nlog("./naive_log.txt");
+  SimLog oblog("./opt_balance_log.txt");
 }
