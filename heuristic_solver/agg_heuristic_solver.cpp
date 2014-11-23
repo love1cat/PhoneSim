@@ -159,7 +159,7 @@ namespace mobile_sensing_sim {
       assert(edges.size() == cur_s.edge_values.size());
       for (int i = 0; i < edges.size(); ++i) {
         const Edge& e = edges[i];
-        if (cur_s.edge_values[i] == 0 || e.type == Edge::PHONE_TO_SELF) {
+        if (cur_s.edge_values[i] == 0 || e.type == Edge::PHONE_TO_SELF || e.type == Edge::PHONE_TO_SINK) {
           continue;
         }
         if (e.type == Edge::SRC_TO_TARGET) {
