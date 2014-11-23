@@ -195,7 +195,7 @@ namespace mobile_sensing_sim {
     
     // Add a new column corresponding to helper variable C
     int cur_numcols = CPXgetnumcols (env_, lp_);
-    std::cout << "Number of cols before adding " << cur_numcols << std::endl;
+//    std::cout << "Number of cols before adding " << cur_numcols << std::endl;
     char ctype[1] = {'C'};
     double lb[1] = {0};
     double ub[1] = {CPX_INFBOUND};
@@ -205,17 +205,17 @@ namespace mobile_sensing_sim {
     status_ = CPXnewcols(env_, lp_, ccnt, obj, lb, ub, ctype, NULL);
     
     if (status_) {
-      std::cout << "Error adding new cols... Status: " << status_ << std::endl;
+//      std::cout << "Error adding new cols... Status: " << status_ << std::endl;
       return status_;
     }
     
     
     // Add cost constraints for every phone.
     cur_numcols = CPXgetnumcols (env_, lp_);
-    std::cout << "Number of cols after adding " << cur_numcols << std::endl;
+//    std::cout << "Number of cols after adding " << cur_numcols << std::endl;
     
     int cur_numrows = CPXgetnumrows (env_, lp_);
-    std::cout << "Number of rows before adding " << cur_numrows << std::endl;
+//    std::cout << "Number of rows before adding " << cur_numrows << std::endl;
     
     assert(g.edge_count == cur_numcols - 1 && "The number of edges does not match the number of columns!");
     
@@ -231,12 +231,12 @@ namespace mobile_sensing_sim {
     status_ = CPXnewrows(env_, lp_, rcnt, rhs.get(), sense.get(), NULL, NULL);
     
     if (status_) {
-      std::cout << "Error adding new rows... Status: " << status_ << std::endl;
+//      std::cout << "Error adding new rows... Status: " << status_ << std::endl;
       return status_;
     }
     
     cur_numrows = CPXgetnumrows (env_, lp_);
-    std::cout << "Number of rows after adding " << cur_numrows << std::endl;
+//    std::cout << "Number of rows after adding " << cur_numrows << std::endl;
     
     // Change coefficients based on graph
     std::vector<int> rowlist;
@@ -280,7 +280,7 @@ namespace mobile_sensing_sim {
     
     status_ = CPXchgcoeflist(env_, lp_, count, &rowlist[0], &collist[0], &vallist[0]);
     if (status_) {
-      std::cout << "Error changing coef of new rows... Status: " << status_ << std::endl;
+//      std::cout << "Error changing coef of new rows... Status: " << status_ << std::endl;
       return status_;
     }
     
@@ -293,7 +293,7 @@ namespace mobile_sensing_sim {
     }
     status_ = CPXchgobj(env_, lp_, cur_numcols, &indices[0], &values[0]);
     if (status_) {
-      std::cout << "Error changing coef of obj... Status: " << status_ << std::endl;
+//      std::cout << "Error changing coef of obj... Status: " << status_ << std::endl;
       return status_;
     }
     

@@ -24,6 +24,9 @@ namespace mobile_sensing_sim {
 			std::cout << "**** Running error happened ****" << std::endl <<error_message <<std::endl;
 			exit(EXIT_FAILURE);
 		}
+    static void RunningWarning(const std::string& error_message) {
+      std::cout << "**** Warning ****" << std::endl <<error_message <<std::endl;
+    }
 	private:
 		ErrorHandler();
 	};
