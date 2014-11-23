@@ -108,27 +108,38 @@ int main(int argc, const char * argv[])
     // Create solvers
     std::vector<mss::SolverBase *> solvers;
     std::vector<std::string> solver_names;
+
     mss::OptimalSolver os;
     solvers.push_back(&os);
     solver_names.push_back("Optimal solver");
+
     mss::HeuristicSolver hs(60);
     solvers.push_back(&hs);
     solver_names.push_back("Heuristic solver");
+
+    mss::HeuristicSolver hbs(60, true);
+    solvers.push_back(&hbs);
+    solver_names.push_back("Heuristic balance solver");
+
     mss::HeuristicDynSolver hds(60);
     solvers.push_back(&hds);
     solver_names.push_back("Heuristic Dynamic solver");
+
     mss::NaiveSolver ns;
     solvers.push_back(&ns);
     solver_names.push_back("Naive solver");
-    mss::AggressiveHeuristicSolver ahs(60);
-    solvers.push_back(&ahs);
-    solver_names.push_back("Aggressive heuristic solver");
+    //mss::AggressiveHeuristicSolver ahs(60);
+    //solvers.push_back(&ahs);
+    //solver_names.push_back("Aggressive heuristic solver");
+
     mss::OptimalBalanceSolver obs;
     solvers.push_back(&obs);
     solver_names.push_back("Optimal balance solver");
+
     for (int j = 0; j < solvers.size(); ++j) {
       solvers[j]->SetMILP(false);
       mss::Result r = solvers[j]->Solve(scen);
+      std::cout << "Running algorithm " << solver_names[j] << std::endl;
       of << r.all_cost << "\t"
       //         << r.total_cost[mss::Cost::SENSING] << "\t"
       //         << r.total_cost[mss::Cost::COMM] << "\t"
