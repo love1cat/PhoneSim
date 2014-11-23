@@ -205,7 +205,7 @@ namespace mobile_sensing_sim {
               IncreaseCost(phones[e.phone1_id]);
             }
           } else {
-            ErrorHandler::RunningError("Heuristic algorithm: Unkown edge type is found while executing actions returned by cplex solver!");
+            ErrorHandler::RunningError("Heuristic Dynamic algorithm: Unkown edge type is found while executing actions returned by cplex solver!");
           }
         }
       }

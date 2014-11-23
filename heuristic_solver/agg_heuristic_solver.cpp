@@ -205,7 +205,7 @@ namespace mobile_sensing_sim {
               ahlog << "Data transfer aborted: phone " << e.phone1_id << " if out of the range of phone " << e.phone2_id << " at time " << e.time << ".\n";
             }
           } else {
-            ErrorHandler::RunningError("Heuristic algorithm: Unkown edge type is found while executing actions returned by cplex solver!");
+            ErrorHandler::RunningError("Aggressive heuristic algorithm: Unkown edge type is found while executing actions returned by cplex solver!");
           }
         } // if (e.time >= t && e.time < t + report_period_)
       } //  for i

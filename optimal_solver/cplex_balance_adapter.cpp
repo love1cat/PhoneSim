@@ -120,7 +120,7 @@ namespace mobile_sensing_sim {
     /* Write the output to the Solution vector */
     s.obj = objval;
     s.solution_status = solstat;
-    int narcs = cur_numcols - 1;
+    int narcs = cur_numcols - 1; // we should not count in last help variable
     int nnode = cur_numrows;
     
     s.edge_values.resize(narcs);
