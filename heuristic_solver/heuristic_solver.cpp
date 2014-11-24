@@ -115,6 +115,7 @@ namespace mobile_sensing_sim {
       Solution cur_s;
       bool is_success = false;
       
+      hlog << "Try optimal solver first...\n";
       is_success = cplex_adapter_.Solve(gc.GetGraph(), cur_s);
       
       if (!is_success) {
@@ -125,6 +126,7 @@ namespace mobile_sensing_sim {
       if (use_balance_) {
         Solution bal_s;
         cplex_balance_adapter_.SetMILP(false);
+        hlog << "Optimal solver succeeded. Try optimal balanced solver...\n";
         is_success = cplex_balance_adapter_.Solve(gc.GetGraph(), cur_scen, BalanceOption(), bal_s);
         if (is_success) {
           cur_s = bal_s;
