@@ -108,7 +108,7 @@ namespace mobile_sensing_sim {
     int cur_numrows = CPXgetnumrows (env_, lp_);
     int cur_numcols = CPXgetnumcols (env_, lp_);
     
-    boost::scoped_array<double> x(new double[g.edge_count]);
+    boost::scoped_array<double> x(new double[cur_numcols]);
     
     status_ = CPXgetx (env_, lp_, x.get(), 0, cur_numcols-1);
     if ( status_ ) {
