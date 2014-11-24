@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <boost/shared_ptr.hpp>
 #include "scenario_generator/scenario_generator.h"
 #include "optimal_solver/graph_converter.h"
 #include "solver_base.h"
@@ -94,6 +95,9 @@ int main(int argc, const char * argv[])
   const int kPhoneCountsSize = 4;
   //  int phone_counts[] = {35};
   //  const int kPhoneCountsSize = 1;
+  
+  int dyn_muliples[] = {2, 4, 8, 10};
+  const int kDynMultipleSize = 4;
   std::ofstream of(DEFAULT_OUTFILE);
   for (int i = 0; i < kPhoneCountsSize; ++i) {
     sp.phone_count = phone_counts[i];
@@ -106,35 +110,36 @@ int main(int argc, const char * argv[])
     const mss::Scenario& scen = sg.GenerateDefaultScenario();
     
     // Create solvers
-    std::vector<mss::SolverBase *> solvers;
+    std::vector<boost::shared_ptr<mss::SolverBase> > solvers;
     std::vector<std::string> solver_names;
 
-    mss::OptimalSolver os;
-    solvers.push_back(&os);
+    solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::OptimalSolver()));
     solver_names.push_back("Optimal solver");
+    
+    solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::OptimalBalanceSolver()));
+    solver_names.push_back("Optimal balance solver");
 
-    mss::HeuristicSolver hs(60);
-    solvers.push_back(&hs);
+    solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::HeuristicSolver(60)));
     solver_names.push_back("Heuristic solver");
 
-    mss::HeuristicSolver hbs(60, true);
-    solvers.push_back(&hbs);
-    solver_names.push_back("Heuristic balance solver");
+//    mss::HeuristicSolver hbs(60, true);
+//    solvers.push_back(&hbs);
+//    solver_names.push_back("Heuristic balance solver");
 
-    mss::HeuristicDynSolver hds(60);
-    solvers.push_back(&hds);
-    solver_names.push_back("Heuristic Dynamic solver");
+    for (int j = 0; j < kDynMultipleSize; ++j) {
+      solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::HeuristicDynSolver(60, dyn_muliples[j])));
+      std::string sname = "Heuristic Dynamic solver - Multiple = ";
+      sname += dyn_muliples[j];
+      solver_names.push_back(sname);
+    }
 
-    mss::NaiveSolver ns;
-    solvers.push_back(&ns);
+    solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::NaiveSolver()));
     solver_names.push_back("Naive solver");
     //mss::AggressiveHeuristicSolver ahs(60);
     //solvers.push_back(&ahs);
     //solver_names.push_back("Aggressive heuristic solver");
 
-    mss::OptimalBalanceSolver obs;
-    solvers.push_back(&obs);
-    solver_names.push_back("Optimal balance solver");
+
 
     for (int j = 0; j < solvers.size(); ++j) {
       solvers[j]->SetMILP(false);

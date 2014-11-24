@@ -17,7 +17,7 @@
 namespace mobile_sensing_sim {
 	class HeuristicDynSolver : public SolverBase{
 	public:
-		HeuristicDynSolver(const int report_period, bool use_balance = false) : report_period_(report_period), use_balance_(use_balance) {}
+		HeuristicDynSolver(const int report_period, double multiple = 2) : report_period_(report_period), multiple_(multiple){}
 		Result Solve(const Scenario& scen);
 	private:
     virtual void IncreaseCost(Phone &p) const;
@@ -26,7 +26,7 @@ namespace mobile_sensing_sim {
     CplexBalanceAdapter cplex_balance_adapter_;
     
 		const int report_period_;
-    bool use_balance_;
+    double multiple_;
 	};
 }
 

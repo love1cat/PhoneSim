@@ -114,28 +114,16 @@ namespace mobile_sensing_sim {
       // Solve converted graph.
       hdlog << "Solve converted graph...\n";
       Solution cur_s;
-      bool is_success = false;
-      
-      if (use_balance_) {
-        cplex_balance_adapter_.SetMILP(false);
-        is_success = cplex_balance_adapter_.Solve(gc.GetGraph(), cur_scen, BalanceOption(), cur_s);
-      } else {
-        is_success = cplex_adapter_.Solve(gc.GetGraph(), cur_s);
-      }
+      bool is_success = cplex_adapter_.Solve(gc.GetGraph(), cur_s);
       if (!is_success) {
-        ErrorHandler::RunningError("Cplex solver does not run successfully!");
+        ErrorHandler::RunningWarning("Cplex solver does not run successfully!");
+        continue;
       }
       
       if (UseMILP() && cur_s.solution_status == CPX_STAT_OPTIMAL) {
         // If feasible, try MILP
         Solution milp_s;
-        is_success = false;
-        if (use_balance_) {
-          cplex_balance_adapter_.SetMILP(true);
-          is_success = cplex_balance_adapter_.Solve(gc.GetGraph(), cur_scen, BalanceOption(), milp_s);
-        } else {
-          is_success = cplex_milp_adapter_.Solve(gc.GetGraph(), milp_s);
-        }
+        is_success = cplex_milp_adapter_.Solve(gc.GetGraph(), milp_s);
 
         // If still feasible, use MILP solution.
         if (is_success) {
@@ -266,8 +254,8 @@ namespace mobile_sensing_sim {
   }
   
   void HeuristicDynSolver::IncreaseCost(mobile_sensing_sim::Phone &p) const {
-    p.costs_.sensing_cost *= 2;
-    p.costs_.transfer_cost *= 2;
-    p.costs_.upload_cost *= 2;
+    p.costs_.sensing_cost *= multiple_;
+    p.costs_.transfer_cost *= multiple_;
+    p.costs_.upload_cost *= multiple_;
   }
 }
