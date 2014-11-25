@@ -12,6 +12,7 @@
 #include "scenario_generator/scenario_generator.h"
 #include "optimal_solver/graph_converter.h"
 #include "solver_base.h"
+#include "stat.h"
 #include "optimal_solver/optimal_solver.h"
 #include "optimal_solver/optimal_balance_solver.h"
 #include "heuristic_solver/heuristic_solver.h"
@@ -75,6 +76,7 @@ mss::MonitorMap CreateMap() {
 
 int main(int argc, const char * argv[])
 {
+  const int kScenarioNumber = 10;
   // Scenario parameters.
   mss::ScenarioParameters sp;
   sp.sensing_range = 40;
@@ -91,67 +93,85 @@ int main(int argc, const char * argv[])
   sp.upload_cost_range = mss::Range(2, 6, 0.5);
   sp.upload_limit_range = mss::Range(1, 3, 0.1);
   
-  int phone_counts[] = {35, 40, 45, 50};
-  const int kPhoneCountsSize = 4;
+  int phone_counts[] = {35, 40};
+  const int kPhoneCountsSize = 2;
   //  int phone_counts[] = {35};
   //  const int kPhoneCountsSize = 1;
   
-  int dyn_muliples[] = {2, 4, 8, 10};
-  const int kDynMultipleSize = 4;
+  double dyn_muliples[] = {1.2, 1.4};
+  const int kDynMultipleSize = 2;
+  
   std::ofstream of(DEFAULT_OUTFILE);
   for (int i = 0; i < kPhoneCountsSize; ++i) {
-    sp.phone_count = phone_counts[i];
-    of << phone_counts[i] << "\t";
-    
-    // Create scneario generator.
-    mss::ScenarioGenerator sg(sp);
-    
-    // Generate scenario.
-    const mss::Scenario& scen = sg.GenerateDefaultScenario();
-    
-    // Create solvers
-    std::vector<boost::shared_ptr<mss::SolverBase> > solvers;
-    std::vector<std::string> solver_names;
-
-    solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::OptimalSolver()));
-    solver_names.push_back("Optimal solver");
-    
-    solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::OptimalBalanceSolver()));
-    solver_names.push_back("Optimal balance solver");
-
-    solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::HeuristicSolver(60)));
-    solver_names.push_back("Heuristic solver");
-
-//    mss::HeuristicSolver hbs(60, true);
-//    solvers.push_back(&hbs);
-//    solver_names.push_back("Heuristic balance solver");
-
-    for (int j = 0; j < kDynMultipleSize; ++j) {
-      solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::HeuristicDynSolver(60, dyn_muliples[j])));
-      std::string sname = "Heuristic Dynamic solver - Multiple = ";
-      sname += dyn_muliples[j];
-      solver_names.push_back(sname);
+    std::vector<std::vector<mss::Statistics> > res_stats(4 + kDynMultipleSize,
+                                                         std::vector<mss::Statistics>(3));
+    for (int sid = 0; sid < kScenarioNumber; ++sid) {
+      std::cout << "*****************************" << std::endl;
+      std::cout << "Scenario ID: " << sid << std::endl;
+      
+      sp.phone_count = phone_counts[i];
+      of << phone_counts[i] << "\t";
+      
+      // Create scneario generator.
+      mss::ScenarioGenerator sg(sp);
+      
+      // Generate scenario.
+      const mss::Scenario& scen = sg.GenerateDefaultScenario();
+      
+      // Create solvers
+      std::vector<boost::shared_ptr<mss::SolverBase> > solvers;
+      std::vector<std::string> solver_names;
+      
+      solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::OptimalSolver()));
+      solver_names.push_back("Optimal solver");
+      
+      solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::OptimalBalanceSolver()));
+      solver_names.push_back("Optimal balance solver");
+      
+      solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::HeuristicSolver(60)));
+      solver_names.push_back("Heuristic solver");
+      
+      //    mss::HeuristicSolver hbs(60, true);
+      //    solvers.push_back(&hbs);
+      //    solver_names.push_back("Heuristic balance solver");
+      
+      for (int j = 0; j < kDynMultipleSize; ++j) {
+        solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::HeuristicDynSolver(60, dyn_muliples[j])));
+        std::string sname = "Heuristic Dynamic solver - Multiple = ";
+        sname += dyn_muliples[j];
+        solver_names.push_back(sname);
+      }
+      
+      solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::NaiveSolver()));
+      solver_names.push_back("Naive solver");
+      //mss::AggressiveHeuristicSolver ahs(60);
+      //solvers.push_back(&ahs);
+      //solver_names.push_back("Aggressive heuristic solver");
+      
+      assert(res_stats.size() == solvers.size());
+      
+      for (int j = 0; j < solvers.size(); ++j) {
+        solvers[j]->SetMILP(false);
+        std::cout << "Running algorithm " << solver_names[j] << std::endl;
+        mss::Result r = solvers[j]->Solve(scen);
+        
+        // Save result to statistics if valid.
+        if (r.is_valid && r.is_optimal) {
+          res_stats[j][0].AddValue(r.all_cost);
+          mss::Statistics phone_stat;
+          for (int k = 0; k < scen.phone_count; ++k) {
+            phone_stat.AddValue(r.PhoneCost(k));
+          }
+          res_stats[j][1].AddValue(r.MaxPhoneCost());
+          res_stats[j][2].AddValue(phone_stat.Variance());
+        }
+      }
+      of << std::endl;
     }
-
-    solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::NaiveSolver()));
-    solver_names.push_back("Naive solver");
-    //mss::AggressiveHeuristicSolver ahs(60);
-    //solvers.push_back(&ahs);
-    //solver_names.push_back("Aggressive heuristic solver");
-
-
-
-    for (int j = 0; j < solvers.size(); ++j) {
-      solvers[j]->SetMILP(false);
-      mss::Result r = solvers[j]->Solve(scen);
-      std::cout << "Running algorithm " << solver_names[j] << std::endl;
-      of << r.all_cost << "\t"
-      //         << r.total_cost[mss::Cost::SENSING] << "\t"
-      //         << r.total_cost[mss::Cost::COMM] << "\t"
-      //         << r.total_cost[mss::Cost::UPLOAD] << "\t"
-      << r.GetMaxPhoneCost() << "\t";
-      int success_val = (r.is_valid && r.is_optimal) ? 1 : 0;
-      of << success_val << "\t";
+    
+    for (int j = 0; j < res_stats.size(); ++j) {
+      for (int k = 0; k < res_stats[j].size(); ++k)
+      of << res_stats[j][k].Mean() << "\t";
     }
     of << std::endl;
   } //for int i

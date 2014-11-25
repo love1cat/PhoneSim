@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A14E8C99196CEA2C0078ECC9 /* PhoneSim.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = A14E8C98196CEA2C0078ECC9 /* PhoneSim.1 */; };
 		A14E8CA7196CEADB0078ECC9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A14E8CA1196CEADB0078ECC9 /* main.cpp */; };
 		A14E8CA8196CEADB0078ECC9 /* simlog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A14E8CA4196CEADB0078ECC9 /* simlog.cpp */; };
 		A14E8CAA196CECF40078ECC9 /* libpthread.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A14E8CA9196CECF40078ECC9 /* libpthread.dylib */; };
@@ -38,7 +37,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				A14E8C99196CEA2C0078ECC9 /* PhoneSim.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -46,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		A14E8C93196CEA2C0078ECC9 /* PhoneSim */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PhoneSim; sourceTree = BUILT_PRODUCTS_DIR; };
-		A14E8C98196CEA2C0078ECC9 /* PhoneSim.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = PhoneSim.1; sourceTree = "<group>"; };
 		A14E8C9F196CEADB0078ECC9 /* error_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = error_handler.h; path = ../../error_handler.h; sourceTree = "<group>"; };
 		A14E8CA1196CEADB0078ECC9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../main.cpp; sourceTree = "<group>"; };
 		A14E8CA4196CEADB0078ECC9 /* simlog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simlog.cpp; path = ../../simlog.cpp; sourceTree = "<group>"; };
@@ -83,6 +80,7 @@
 		A1C288331A203AAF0038344F /* milp_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = milp_base.h; path = ../../milp_base.h; sourceTree = "<group>"; };
 		A1C288341A2189B10038344F /* heuristic_dyn_solver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = heuristic_dyn_solver.cpp; sourceTree = "<group>"; };
 		A1C288351A2189B10038344F /* heuristic_dyn_solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heuristic_dyn_solver.h; sourceTree = "<group>"; };
+		A1C2883A1A250DFE0038344F /* stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stat.h; path = ../../stat.h; sourceTree = "<group>"; };
 		A1CCC87D1A09A82900D79355 /* cplex_adapter_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cplex_adapter_base.cpp; sourceTree = "<group>"; };
 		A1CCC87E1A09A82900D79355 /* cplex_adapter_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cplex_adapter_base.h; sourceTree = "<group>"; };
 		A1E658711A12EBE00009206F /* cplex_balance_adapter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cplex_balance_adapter.cpp; sourceTree = "<group>"; };
@@ -135,10 +133,10 @@
 				A14E8CCD196CF5570078ECC9 /* optimal_solver */,
 				A14E8CD6196CF5570078ECC9 /* scenario_generator */,
 				A14E8C9F196CEADB0078ECC9 /* error_handler.h */,
+				A1C2883A1A250DFE0038344F /* stat.h */,
 				A14E8CA1196CEADB0078ECC9 /* main.cpp */,
 				A14E8CA4196CEADB0078ECC9 /* simlog.cpp */,
 				A14E8CA5196CEADB0078ECC9 /* simlog.h */,
-				A14E8C98196CEA2C0078ECC9 /* PhoneSim.1 */,
 				A1C288331A203AAF0038344F /* milp_base.h */,
 				A14E8CEA196E0D280078ECC9 /* solver_base.h */,
 			);

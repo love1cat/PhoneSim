@@ -48,11 +48,15 @@ namespace mobile_sensing_sim {
       all_cost += cost;
     }
     
-    double GetMaxPhoneCost() {
+    double PhoneCost(int phoneid) const {
+      Cost c = phone_cost[phoneid];
+      return c[Cost::SENSING] + c[Cost::COMM] + c[Cost::UPLOAD];
+    }
+    
+    double MaxPhoneCost() const {
       double max = 0;
       for (int i = 0; i < phone_cost.size(); ++i) {
-        Cost c = phone_cost[i];
-        double cost = c[Cost::SENSING] + c[Cost::COMM] + c[Cost::UPLOAD];
+        double cost = PhoneCost(i);
         if (cost > max) {
           max = cost;
         }
