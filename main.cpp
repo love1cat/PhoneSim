@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include <boost/shared_ptr.hpp>
+#include <boost/lexical_cast.hpp>
 #include "scenario_generator/scenario_generator.h"
 #include "optimal_solver/graph_converter.h"
 #include "solver_base.h"
@@ -76,7 +77,7 @@ mss::MonitorMap CreateMap() {
 
 int main(int argc, const char * argv[])
 {
-  const int kScenarioNumber = 10;
+  const int kScenarioNumber = 20;
   // Scenario parameters.
   mss::ScenarioParameters sp;
   sp.sensing_range = 40;
@@ -85,7 +86,6 @@ int main(int argc, const char * argv[])
   //	sp.phone_count = 40;
   sp.speed_range = mss::Range(5, 15, 0.1);
   sp.start_time_range = mss::Range(0, 200);
-  sp.seed = 0;
   sp.map = CreateMap();
   sp.data_per_second = 0.5;
   sp.sensing_cost_range = mss::Range(2, 6, 0.5);
@@ -93,13 +93,13 @@ int main(int argc, const char * argv[])
   sp.upload_cost_range = mss::Range(2, 6, 0.5);
   sp.upload_limit_range = mss::Range(1, 3, 0.1);
   
-  int phone_counts[] = {35, 40};
-  const int kPhoneCountsSize = 2;
+  int phone_counts[] = {35, 40, 45, 50, 55, 60, 65};
+  const int kPhoneCountsSize = 7;
   //  int phone_counts[] = {35};
   //  const int kPhoneCountsSize = 1;
   
-  double dyn_muliples[] = {1.2, 1.4};
-  const int kDynMultipleSize = 2;
+  double dyn_muliples[] = {1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0};
+  const int kDynMultipleSize = 10;
   
   std::ofstream of(DEFAULT_OUTFILE);
   for (int i = 0; i < kPhoneCountsSize; ++i) {
@@ -110,7 +110,7 @@ int main(int argc, const char * argv[])
       std::cout << "Scenario ID: " << sid << std::endl;
       
       sp.phone_count = phone_counts[i];
-      of << phone_counts[i] << "\t";
+      sp.seed = sid;
       
       // Create scneario generator.
       mss::ScenarioGenerator sg(sp);
@@ -138,7 +138,7 @@ int main(int argc, const char * argv[])
       for (int j = 0; j < kDynMultipleSize; ++j) {
         solvers.push_back(boost::shared_ptr<mss::SolverBase>(new mss::HeuristicDynSolver(60, dyn_muliples[j])));
         std::string sname = "Heuristic Dynamic solver - Multiple = ";
-        sname += dyn_muliples[j];
+        sname += boost::lexical_cast<std::string>(dyn_muliples[j]);
         solver_names.push_back(sname);
       }
       
@@ -166,9 +166,10 @@ int main(int argc, const char * argv[])
           res_stats[j][2].AddValue(phone_stat.Variance());
         }
       }
-      of << std::endl;
     }
     
+    // Write results.
+    of << phone_counts[i] << "\t";
     for (int j = 0; j < res_stats.size(); ++j) {
       for (int k = 0; k < res_stats[j].size(); ++k)
       of << res_stats[j][k].Mean() << "\t";
