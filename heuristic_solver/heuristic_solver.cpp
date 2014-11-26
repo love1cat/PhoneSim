@@ -116,7 +116,8 @@ namespace mobile_sensing_sim {
       bool is_success = false;
       
       hlog << "Try optimal solver first...\n";
-      is_success = cplex_adapter_.Solve(gc.GetGraph(), cur_s);
+      CplexAdapter cplex_adapter;
+      is_success = cplex_adapter.Solve(gc.GetGraph(), cur_s);
       
       if (!is_success) {
         ErrorHandler::RunningWarning("Cplex solver does not run successfully!");

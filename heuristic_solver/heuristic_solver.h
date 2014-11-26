@@ -21,7 +21,6 @@ namespace mobile_sensing_sim {
 		Result Solve(const Scenario& scen);
 	private:
 		CplexMILPAdapter cplex_milp_adapter_;
-		CplexAdapter cplex_adapter_;
     CplexBalanceAdapter cplex_balance_adapter_;
     
 		const int report_period_;

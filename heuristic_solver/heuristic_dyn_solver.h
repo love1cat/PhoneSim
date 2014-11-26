@@ -22,7 +22,6 @@ namespace mobile_sensing_sim {
 	private:
     virtual void IncreaseCost(Phone &p) const;
 		CplexMILPAdapter cplex_milp_adapter_;
-		CplexAdapter cplex_adapter_;
     CplexBalanceAdapter cplex_balance_adapter_;
     
 		const int report_period_;

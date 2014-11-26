@@ -20,6 +20,10 @@ namespace mobile_sensing_sim {
 		/* Optimize the problem and obtain solution. */
     s.Clear();
     s.is_valid = false;
+    
+    if (!UseMILP()) {
+      CPXsetdblparam(env_, CPX_PARAM_TILIM, 60.0);
+    }
 		
 		status_ = CPXNETprimopt (env_, net_);
 		if ( status_ ) {

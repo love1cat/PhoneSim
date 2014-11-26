@@ -114,7 +114,8 @@ namespace mobile_sensing_sim {
       // Solve converted graph.
       hdlog << "Solve converted graph...\n";
       Solution cur_s;
-      bool is_success = cplex_adapter_.Solve(gc.GetGraph(), cur_s);
+      CplexAdapter cplex_adapter;
+      bool is_success = cplex_adapter.Solve(gc.GetGraph(), cur_s);
       if (!is_success) {
         ErrorHandler::RunningWarning("Cplex solver does not run successfully!");
         continue;

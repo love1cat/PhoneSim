@@ -77,7 +77,7 @@ mss::MonitorMap CreateMap() {
 
 int main(int argc, const char * argv[])
 {
-  const int kScenarioNumber = 20;
+  const int kScenarioNumber = 10;
   // Scenario parameters.
   mss::ScenarioParameters sp;
   sp.sensing_range = 40;
