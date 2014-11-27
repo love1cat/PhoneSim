@@ -1,5 +1,5 @@
 Xcode/DerivedData/*
-build/*
+build*/*
 
 
 Xcode/PhoneSim.xcodeproj/project.xcworkspace/xcuserdata/andy.xcuserdatad/UserInterfaceState.xcuserstate
