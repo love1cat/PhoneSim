@@ -1,7 +1,13 @@
+*.swp
+*.o
+
 Xcode/DerivedData/*
 build*/*
 
 Xcode/DrawFigures/*
+!Xcode/DrawFigures/gen_trend.bash
+!Xcode/DrawFigures/drawfig.gp
+
 Xcode/PhoneSim.xcodeproj/project.xcworkspace/xcuserdata/andy.xcuserdatad/UserInterfaceState.xcuserstate
 
 Xcode/PhoneSim.xcodeproj/xcuserdata/andy.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
