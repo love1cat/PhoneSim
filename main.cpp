@@ -77,7 +77,7 @@ mss::MonitorMap CreateMap() {
 
 int main(int argc, const char * argv[])
 {
-  const int kScenarioNumber = 10;
+  const int kScenarioNumber = 1;
   // Scenario parameters.
   mss::ScenarioParameters sp;
   sp.sensing_range = 40;
@@ -93,13 +93,13 @@ int main(int argc, const char * argv[])
   sp.upload_cost_range = mss::Range(2, 6, 0.5);
   sp.upload_limit_range = mss::Range(1, 3, 0.1);
   
-  int phone_counts[] = {35, 40, 45, 50, 55, 60, 65};
-  const int kPhoneCountsSize = 7;
+  int phone_counts[] = {50};
+  const int kPhoneCountsSize = 1;
   //  int phone_counts[] = {35};
   //  const int kPhoneCountsSize = 1;
   
-  double dyn_muliples[] = {1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0};
-  const int kDynMultipleSize = 10;
+  double dyn_muliples[] = {1.25};
+  const int kDynMultipleSize = 1;
   
   std::ofstream of(DEFAULT_OUTFILE);
   for (int i = 0; i < kPhoneCountsSize; ++i) {
@@ -157,13 +157,20 @@ int main(int argc, const char * argv[])
         
         // Save result to statistics if valid.
         if (r.is_valid && r.is_optimal) {
-          res_stats[j][0].AddValue(r.all_cost);
-          mss::Statistics phone_stat;
+          //mss::Statistics phone_stat;
+          std::vector<mss::Statistics> cost_stat(3);
           for (int k = 0; k < scen.phone_count; ++k) {
-            phone_stat.AddValue(r.PhoneCost(k));
+            //phone_stat.AddValue(r.PhoneCost(k));
+            cost_stat[0].AddValue(r.phone_cost[k][mss::Cost::SENSING]);
+            cost_stat[1].AddValue(r.phone_cost[k][mss::Cost::COMM]);
+            cost_stat[2].AddValue(r.phone_cost[k][mss::Cost::UPLOAD]);
           }
-          res_stats[j][1].AddValue(r.MaxPhoneCost());
-          res_stats[j][2].AddValue(phone_stat.Variance());
+//          res_stats[j][0].AddValue(r.all_cost);
+//          res_stats[j][1].AddValue(r.MaxPhoneCost());
+//          res_stats[j][2].AddValue(phone_stat.Variance());
+          res_stats[j][0].AddValue(cost_stat[0].Mean());
+          res_stats[j][1].AddValue(cost_stat[1].Mean());
+          res_stats[j][2].AddValue(cost_stat[2].Mean());
         }
       }
     }
